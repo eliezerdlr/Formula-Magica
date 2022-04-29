@@ -13,7 +13,7 @@ from selenium.common.exceptions import TimeoutException
 s = Service('C:/Users/Robson/anaconda3/chromedriver.exe') #ALTERAR O CAMINHO
 driver = webdriver.Chrome(service=s)
 driver.get("https://statusinvest.com.br/acoes/busca-avancada")
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 12)
 try:
     busca = driver.find_element(By.XPATH, '//*[@id="main-2"]/div[3]/div/div/div/button[2]')  #botão de busca
     busca.click()
@@ -25,7 +25,7 @@ try:  #analisa se o botão de fechar o popup aparece e clica em fechar
     popup.click()
 except TimeoutException as to:
     print('Tempo expirado, reinicie o programa')
-    driver.close()
+    pass
 try:  #analisa se o botão de download aparece e clica
     download = wait.until(EC.visibility_of_element_located((By.XPATH, '//*[@id="main-2"]/div[4]/div/div[1]/div[2]/a')))
     download.click()

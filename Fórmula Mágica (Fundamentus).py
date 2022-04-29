@@ -18,13 +18,9 @@ for coluna in ['Div.Yield', 'Mrg Ebit', 'Mrg. Líq.', 'ROIC', 'ROE', 'Cresc. Rec
   tabela[coluna] = tabela[coluna].str.replace(',', '.')
   tabela[coluna] = tabela[coluna].str.rstrip('%').astype('float') / 100
 
-cabeçalho('FILTRANDO EMPRESAS')
-#liq = int(input('Qual a liquidez média diária mínima você deseja? '))
-tabela = tabela[tabela['Liq.2meses'] > 1000000] #liq
-#pl = int(input('Qual o P/L mínimo? '))
-tabela = tabela[tabela['P/L'] > 0] #pl
-
 cabeçalho('CRIANDO RANKING')
+tabela = tabela[tabela['Liq.2meses'] > 1000000]
+tabela = tabela[tabela['P/L'] > 0]
 ranking = pd.DataFrame()
 ranking['pos'] = range(1, 101)
 ranking['EV/EBIT'] = tabela[tabela['EV/EBIT'] > 0].sort_values(by=['EV/EBIT'])['Papel'][:100].values
@@ -34,9 +30,9 @@ print(ranking)
 cabeçalho('SOMANDO AS PONTUAÇÕES DO RANKING')
 a = ranking.pivot_table(columns='EV/EBIT', values='pos')
 b = ranking.pivot_table(columns='ROIC', values='pos')
-t = pd.concat([a,b])
+t = pd.concat([a, b])
 rank = t.dropna(axis=1).sum()
 print(rank)
 
 cabeçalho('RANKING FINAL DA FÓRMULA MÁGICA')
-print(rank.sort_values()[:13])
+print(rank.sort_values()[:10])
